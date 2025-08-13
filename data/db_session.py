@@ -14,7 +14,8 @@ def global_init():
         return
 
 
-    conn_str = 'postgresql+psycopg2://postgres:postgres@localhost:5432/postgres'
+    conn_str = 'postgresql+psycopg2://postgres:postgres@db:5432/postgres'
+
     print(f"Подключение к базе данных по адресу {conn_str}")
 
     engine = sa.create_engine(conn_str, echo=False)
