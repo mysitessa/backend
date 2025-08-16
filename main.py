@@ -9,18 +9,14 @@ CORS(app)
 global_init()
 session = create_session()
 
-def get_data():
-    data = session.query(Clients).all()
-    for client in data:
-        print(f"айди клиента: {client.id}, имя: {client.name}, айди матча: {client.match_id}")
-
-        return jsonify({
-            'айди клиента': client.id,
-            'имя': client.name,
-            'айди матча': client.match_id
-        }
-        )
+@app.route('/kills')
+def get_kills():
+    data = session.query(Kills).count()
+    print(data)
+    return jsonify({"kills":data})
     
+
 if __name__ == '__main__':
     app.run(debug=True)
+
     
