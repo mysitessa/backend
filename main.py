@@ -21,6 +21,13 @@ def get_players():
     print(data)
     return jsonify({"players":data})
 
+@app.route('/matches')
+def get_matches():
+    data = session.query(InitGames).count()
+    print(data)
+    return jsonify({"matches":data})
+
+
     
 
 if __name__ == '__main__':
