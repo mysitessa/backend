@@ -14,6 +14,13 @@ def get_kills():
     data = session.query(Kills).count()
     print(data)
     return jsonify({"kills":data})
+
+@app.route('/players')
+def get_players():
+    data = session.query(Clients).count()
+    print(data)
+    return jsonify({"players":data})
+
     
 
 if __name__ == '__main__':
