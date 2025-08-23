@@ -3,12 +3,30 @@ from data.models import InitGames, Items, Weapons, Matches, Clients, Events, Ite
 from flask import Flask, jsonify
 from flask_cors import CORS
 from collections import Counter
+import logging
 
 
 app = Flask(__name__)
 CORS(app)  
 global_init()
 session = create_session()
+
+#запись логов
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+
+file_handler = logging.FileHandler('main.log', encoding='utf-8')
+file_handler.setLevel(logging.DEBUG)
+
+format = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+file_handler.setFormatter(format)
+
+logger.addHandler(file_handler)
+
+logging.basicConfig(level=logging.DEBUG, 
+                    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+                    handlers=[logging.FileHandler('main.log', encoding='utf-8'),
+                             logging.StreamHandler()])
 
 @app.route('/kills')
 def get_kills():
