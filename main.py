@@ -31,19 +31,16 @@ logging.basicConfig(level=logging.DEBUG,
 @app.route('/kills')
 def get_kills():
     data = session.query(Kills).count()
-    print(data)
     return jsonify({"kills":data})
 
 @app.route('/players')
 def get_players():
     data = session.query(Clients).count()
-    print(data)
     return jsonify({"players":data})
 
 @app.route('/matches')
 def get_matches():
     data = session.query(InitGames).count()
-    print(data)
     return jsonify({"matches":data})
 
 
@@ -64,6 +61,25 @@ def get_top_maps():
         "1.": sp_most_popular_maps[0],
         "2.": sp_most_popular_maps[1],
         "3.": sp_most_popular_maps[2]
+    })
+
+@app.route('/top_weapon')
+def get_top_weapon():
+    weapon_names = [i[0] for i in session.query(Kills.weapon_id).all()]
+    weapon_count = Counter(weapon_names)
+    weapon_count = weapon_count.most_common()
+    
+    while len(weapon_count) < 3:
+        weapon_count.append(("не занято", 0))
+    
+    sp_most_popular_weapon_id = [i[0] for i in weapon_count[:3]]
+    sp_most_popular_weapon = [session.query(Weapons.name).filter(Weapons.id == i).scalar() for i in sp_most_popular_weapon_id]
+
+    
+    return jsonify({
+        "1.": sp_most_popular_weapon[0],
+        "2.": sp_most_popular_weapon[1],
+        "3.": sp_most_popular_weapon[2]
     })
 
 if __name__ == '__main__':
